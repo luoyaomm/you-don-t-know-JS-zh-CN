@@ -1,15 +1,19 @@
-# You Don't Know JS: Scope & Closures --(罗尧)
-# Chapter 4: Hoisting
+# 你不知道的js：作用域和闭包（You Don't Know JS: Scope & Closures） --(罗尧)
+# 提升（Chapter 4: Hoisting）
 
-By now, you should be fairly comfortable with the idea of scope, and how variables are attached to different levels of scope depending on where and how they are declared. Both function scope and block scope behave by the same rules in this regard: any variable declared within a scope is attached to that scope.
+By now, you should be fairly comfortable with the idea of scope, and how variables are attached to different levels of scope depending on where and how they are declared. Both function scope and block scope behave by the same rules in this regard: any variable declared within a scope is attached to that scope.   
+到目前为止，您应该比较了解作用域，以及变量如何被附加到不同级别的作用域，这取决于它们在哪里和如何声明。在这方面，函数作用域和块作用域都有相同的规则：在作用域内声明的任何变量都附加到该作用域。
 
-But there's a subtle detail of how scope attachment works with declarations that appear in various locations within a scope, and that detail is what we will examine here.
+But there's a subtle detail of how scope attachment works with declarations that appear in various locations within a scope, and that detail is what we will examine here.    
+但是，作用域同其中的变量声明出现的位置有一个微妙的联系，这些细节将在这里进行研究。
 
-## Chicken Or The Egg?
+## 先有鸡还是先有蛋（Chicken Or The Egg?）
 
-There's a temptation to think that all of the code you see in a JavaScript program is interpreted line-by-line, top-down in order, as the program executes. While that is substantially true, there's one part of that assumption which can lead to incorrect thinking about your program.
+There's a temptation to think that all of the code you see in a JavaScript program is interpreted line-by-line, top-down in order, as the program executes. While that is substantially true, there's one part of that assumption which can lead to incorrect thinking about your program.   
+有一种诱惑，认为在程序执行时，您在JavaScript程序中看到的所有代码按顺序执行，自上而下依次执行。虽然这是基本的事实，但这一假设有一部分可能会导致错误的理解。
 
-Consider this code:
+Consider this code:   
+思考下面的代码：
 
 ```js
 a = 2;
@@ -19,11 +23,14 @@ var a;
 console.log( a );
 ```
 
-What do you expect to be printed in the `console.log(..)` statement?
+What do you expect to be printed in the `console.log(..)` statement?   
+你期望`console.log(..)`打印出什么？
 
-Many developers would expect `undefined`, since the `var a` statement comes after the `a = 2`, and it would seem natural to assume that the variable is re-defined, and thus assigned the default `undefined`. However, the output will be `2`.
+Many developers would expect `undefined`, since the `var a` statement comes after the `a = 2`, and it would seem natural to assume that the variable is re-defined, and thus assigned the default `undefined`. However, the output will be `2`.   
+许多开发人员会觉得是`undefined`，因为`var a`语句在`a = 2`之后，假设变量被重新定义，因此分配了默认的undefined是很自然的。 但是，输出将为2。
 
-Consider another piece of code:
+Consider another piece of code:   
+考虑另一段代码：
 
 ```js
 console.log( a );
@@ -31,11 +38,14 @@ console.log( a );
 var a = 2;
 ```
 
-You might be tempted to assume that, since the previous snippet exhibited some less-than-top-down looking behavior, perhaps in this snippet, `2` will also be printed. Others may think that since the `a` variable is used before it is declared, this must result in a `ReferenceError` being thrown.
+You might be tempted to assume that, since the previous snippet exhibited some less-than-top-down looking behavior, perhaps in this snippet, `2` will also be printed. Others may think that since the `a` variable is used before it is declared, this must result in a `ReferenceError` being thrown.   
+你可能会想到，由于之前的代码片段显示出一些不符合自上而下执行的行为，也许在这段代码中，`2`也将被打印出来。 其他人可能会认为，因为`a`变量在被声明之前被使用，所以必须导致引用一个`ReferenceError`错误。
 
-Unfortunately, both guesses are incorrect. `undefined` is the output.
+Unfortunately, both guesses are incorrect. `undefined` is the output.   
+不幸的是，两种猜测都是错误的，会打印出`undefined`。
 
-**So, what's going on here?** It would appear we have a chicken-and-the-egg question. Which comes first, the declaration ("egg"), or the assignment ("chicken")?
+**So, what's going on here?** It would appear we have a chicken-and-the-egg question. Which comes first, the declaration ("egg"), or the assignment ("chicken")?     
+**所以，这里发生了什么?** 就像是先有鸡还是蛋的问题。哪个在前面，声明（“蛋”）还是赋值（“鸡”）？
 
 ## The Compiler Strikes Again  --(张静)
 
